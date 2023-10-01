@@ -1,0 +1,23 @@
+import pandas as pd
+import numpy as np
+import plotly.express as px
+import plotly.graph_objects as go
+data = pd.read_csv('IPL 2022.csv')
+data
+figure = px.bar(data , x=data['match_winner'] , title="No of matches won by each team in ipl 2022")
+figure.show()
+figure  = px.bar(data , x=data['best_bowling'], title='Best Bowler')
+figure.show()
+data['won_by'] = data['won_by'].map({"Wickets" : "Chasing","Runs":"Defending"})
+won_by = data["won_by"].value_counts()
+label=won_by.index
+counts=won_by.values
+colors=["blue","pink"]
+fig = go.Figure(data=[go.Pie(labels=label,values=counts)])
+fig.update_layout(title_text="No of matches won by defending or chasing")
+fig.update_traces(hoverinfo='label+percent',textinfo='value',textfont_size=30,marker=dict(colors=colors,line=dict(color='black',width=3)))
+fig.show()   
+figure = px.bar(data , x= ['player_of_the_match'] , title='Most player of the match award')
+figure.show()
+high = px.bar(data , x = data['top_scorer'] , y = data['highscore'], color=data['highscore'],title='High score in IPL')
+high.show()
